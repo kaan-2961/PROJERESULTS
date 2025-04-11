@@ -1,3 +1,5 @@
+
+
 import math
 import random
 import numpy as np
@@ -351,7 +353,10 @@ def compute_cost_details(final_clusters, coordinates):
     overall_distance = 0.0
     overall_time = 0.0
     for cluster in final_clusters:
-        route_dist = tsp_distance(coordinates, cluster.nodes)
+        if cluster.method.startswith("kmeans"):
+            route_dist = tsp_distance_elkai(coordinates, cluster.nodes)
+        else:
+            route_dist = tsp_distance(coordinates, cluster.nodes)
         travel_time = route_dist / SPEED + SERVICE_TIME * len(cluster.nodes)
         distance_cost = route_dist * DISTANCE_COST_RATE
         total_cost = distance_cost + HIRING_COST
